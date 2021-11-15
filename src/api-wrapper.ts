@@ -1,7 +1,7 @@
-const apiBaseUrl = "https://api.coingecko.com/api/v3";
+const apiBaseUrl = "https://api.coingecko.com/api/v3/";
 
-const get = (path: string) => {
-    return fetch(apiBaseUrl + path)    
-}
+const get = async (path: string) => 
+    (await fetch(apiBaseUrl + path, { headers: { "accept": "application/json" }})).json()
+
 
 export { get }
