@@ -2,7 +2,7 @@ import "./app.scss";
 import { Form } from './components/Form';
 import { InfoPanel } from "./components/InfoPanel";
 import { get } from './api-wrapper'
-import type { ApiData, StampedData } from "./types/ApiData";
+import type { CoinData } from "./types/CoinData";
 import { createStore } from "solid-js/store";
 import { createSignal } from "solid-js";
 import { ms2Unix } from "./time/time";
@@ -11,27 +11,16 @@ const fetchData = (from: number, to: number) => get(`coins/bitcoin/market_chart/
 
 const App = () => {
   const [start, setStart] = createSignal(0);
-
-  const [store, setStore] = createStore<ApiData>({ market_caps: [], prices: [], total_volumes: [] })
+  const [store, setStore] = createStore<CoinData[]>([])
 
   const updateStore = (fetchedData) => {
-    const market_caps: StampedData[] = fetchedData.market_caps.map((data) => {
-      return { stamp: data[0], value: data[1] }
-    })
+    const coinDatas: CoinData[] = [];
 
-    const prices: StampedData[] = fetchedData.prices.map((data) => {
-      return { stamp: data[0], value: data[1] };
-    })
+    for (let i = 0; i < fetchedData.market_caps.length; i++) {
+      coinDatas.push({ stamp: fetchedData.market_caps[i][0], market_cap: fetchedData.market_caps[i][1], price: fetchedData.prices[i][1], total_volumes: fetchedData.total_volumes[i][1] })
+    }
 
-    const total_volumes: StampedData[] = fetchedData.total_volumes.map((data) => {
-      return { stamp: data[0], value: data[1] };
-    })
-
-    setStore({
-      market_caps: market_caps,
-      prices: prices,
-      total_volumes,
-    });
+    setStore(coinDatas);
   }
 
   const formSubmit = async (from: number, to: number) => {
@@ -47,7 +36,7 @@ const App = () => {
       <h1>Cryptionary</h1>
       <p>Powered by CoinGecko</p>
       <Form submit={formSubmit} />
-      <InfoPanel store={store} startTime={start}/>
+      <InfoPanel store={store} startTime={start} />
     </>
   );
 }

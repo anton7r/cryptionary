@@ -1,15 +1,15 @@
 import { Show } from "solid-js";
-import type { ApiData, StampedData } from "../types/ApiData";
+import type { CoinData } from "../types/CoinData";
 import { day } from '../time/time';
 
 type InfoPanelProps = {
-    store: ApiData;
+    store: CoinData[];
     startTime: () => number;
 }
 
-const isEmpty = (store: ApiData) => store.market_caps == null || store.market_caps.length === 0;
+const isEmpty = (store: CoinData[]) => store == null || store.length === 0;
 
-const longestBear = (prices: StampedData[], startTime: number): number => {
+const longestBear = (prices: CoinData[], startTime: number): number => {
     /*
     let lastDay = 0;
     prices.filter((stamped) => {
@@ -21,14 +21,14 @@ const longestBear = (prices: StampedData[], startTime: number): number => {
     })
     */
     
-    const filteredPrices: StampedData[] = [];
+    const filteredPrices: CoinData[] = [];
 
     let expectedTime = startTime;
     let closest = -Number.MAX_VALUE;
     for(let i = 0; i < prices.length; i++) {
         const delta = prices[i].stamp - expectedTime;
         if(delta >= 0) {
-            console.log(delta);
+            //console.log(delta);
             filteredPrices.push(prices[Math.abs(closest) > Math.abs(delta) ? (i) : (i - 1)]);
             expectedTime += day;
             closest = -Number.MAX_VALUE;
@@ -37,14 +37,14 @@ const longestBear = (prices: StampedData[], startTime: number): number => {
         }
     }
 
-    console.log(filteredPrices);
+    //console.log(filteredPrices);
 
     let max = 0;
     let currentTrend = 0;
 
     for(let i = 1; i < filteredPrices.length; i++) {
-        const previous = filteredPrices[i - 1].value;
-        const current = filteredPrices[i].value;
+        const previous = filteredPrices[i - 1].price;
+        const current = filteredPrices[i].price;
 
         if(current < previous) {
             currentTrend++;
@@ -70,7 +70,7 @@ const InfoPanel = (props: InfoPanelProps) => {
                 }
             >
                 <h2>Longest bearish downward trend</h2>
-                <p>The longest bearish downward trend in the measurement period was { longestBear(props.store.prices, props.startTime()) } days.</p>
+                <p>The longest bearish downward trend in the measurement period was { longestBear(props.store, props.startTime()) } days.</p>
 
 
             </Show>
