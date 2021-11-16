@@ -1,4 +1,4 @@
-type StampedData = {
+export type StampedData = {
 	stamp: number;
 	value: number;
 };

@@ -1,36 +1,37 @@
 import { Component, createSignal } from "solid-js";
-import { stringifyDate, ms2Unix } from "../time/time";
+import { stringifyDate, hour, day } from "../time/time";
 
 type FormProps = {
     submit: (start: number, end: number) => void;
 }
 
-const week = (7 * 24 * 60 * 60 * 1000);
-
 const Form: Component<FormProps> = (props: FormProps) => {
     const [start, setStart] = createSignal(0);
     const [end, setEnd] = createSignal(0);
 
-    const startOnChange = (e) => {
-        setStart(e.target.valueAsNumber)
-        const startTime = start();
-
-        if(startTime >= end()) {
-            setEnd(startTime + week)
-        }
-    };
-
-    const endOnChange = (e) => {
-        setEnd(e.target.valueAsNumber);
-        const endTime = end();
-
-        if(endTime <= start()) {
-            setStart(endTime - week)
+    const updateStart = (value: number) => {
+        setStart(value);
+        const newEnd = value + day;
+        if(newEnd >= end()) {
+            setEnd(newEnd)
         }
     }
 
+    const updateEnd = (value: number) => {
+        setEnd(value);
+        const newStart = value - day;
+        if(newStart <= start()) {
+            setStart(newStart)
+        }
+    }
+
+    updateStart(Date.now());
+
+    const startOnChange = (e) => updateStart(e.target.valueAsNumber);
+    const endOnChange = (e) => updateEnd(e.target.valueAsNumber);
+
     const buttonClick = () => {
-        props.submit(ms2Unix(start()), ms2Unix(end()))
+        props.submit(start(), end() + hour)
     };
 
     return (
@@ -54,9 +55,7 @@ const Form: Component<FormProps> = (props: FormProps) => {
                 onChange={endOnChange}
             />
 
-            <button
-                onClick={buttonClick}
-            >Fetch data</button>
+            <button onClick={buttonClick}>Fetch data</button>
         </div>
     )
 }
