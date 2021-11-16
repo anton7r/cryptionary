@@ -1,6 +1,6 @@
 export type CoinData = {
 	stamp: number;
-	market_cap: number;
+	marketCap: number;
 	price: number;
-	total_volumes: number;
+	totalVolume: number;
 }

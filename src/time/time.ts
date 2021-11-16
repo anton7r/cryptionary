@@ -16,10 +16,63 @@ const stringifyDate = (n: number) => {
     return year + "-" + month + "-" + day;
 }
 
+//0 indexed
+const ordinalMonth = (n: number): string => {
+    switch (n) {
+        case 0:
+            return "January";
+        case 1:
+            return "February";
+        case 2:
+            return "March";
+        case 3:
+            return "April";
+        case 4:
+            return "May";
+        case 5:
+            return "June";
+        case 6:
+            return "July";
+        case 7:
+            return "August";
+        case 8:
+            return "September";
+        case 9:
+            return "October";
+        case 10:
+            return "November";
+        case 11:
+            return "December";
+        default:
+            return "Undefined month";
+    }
+}
+
+const ordinalNumber = (n: number) => {
+    if(n % 1 != 0) {
+        return n;
+    }
+
+    let ending = "th";
+
+    if(n < 4 || n > 20) {
+        const rem = n % 10;
+        if(rem == 1) {
+            ending = "st";
+        } else if (rem == 2) {
+            ending = "nd";
+        } else if (rem == 3) {
+            ending = "rd";
+        }
+    }
+
+    return n + ending;
+} 
+
 const hour = 60 * 60 * 1000;
 
 const day = 24 * hour;
 
 const week = 7 * day;
 
-export { ms2Unix, unix2ms, stringifyDate, hour, day, week }
+export { ms2Unix, unix2ms, stringifyDate, ordinalMonth, ordinalNumber, hour, day, week }

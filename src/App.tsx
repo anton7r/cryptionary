@@ -17,7 +17,7 @@ const App = () => {
     const coinDatas: CoinData[] = [];
 
     for (let i = 0; i < fetchedData.market_caps.length; i++) {
-      coinDatas.push({ stamp: fetchedData.market_caps[i][0], market_cap: fetchedData.market_caps[i][1], price: fetchedData.prices[i][1], total_volumes: fetchedData.total_volumes[i][1] })
+      coinDatas.push({ stamp: fetchedData.market_caps[i][0], marketCap: fetchedData.market_caps[i][1], price: fetchedData.prices[i][1], totalVolume: fetchedData.total_volumes[i][1] })
     }
 
     setStore(coinDatas);

@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 import type { CoinData } from "../types/CoinData";
-import { day } from '../time/time';
+import { day, ordinalMonth, ordinalNumber } from '../time/time';
 
 type InfoPanelProps = {
     store: CoinData[];
@@ -57,6 +57,44 @@ const longestBear = (prices: CoinData[], startTime: number): number => {
     return Math.max(max, currentTrend);
 }
 
+type VolumeData = {
+    stamp: number;
+    volume: number;
+}
+
+const highestVolume = (prices: CoinData[], startTime: number): string => {
+    const volumes: VolumeData[] = [];
+
+    let expectedTime = startTime;
+    //let totalVolume = 0;
+    for(let i = 0; i < prices.length; i++) {
+        const delta = prices[i].stamp - expectedTime;
+        if(delta >= 0) {
+            //console.log(delta);
+            volumes.push({stamp: expectedTime, volume: prices[i].totalVolume});
+            expectedTime += day;
+            //totalVolume = 0;
+        }
+        //totalVolume += prices[i].totalVolume;
+    }
+
+    let highestVolume: VolumeData = volumes[0];
+    for(let i = 1; i < volumes.length; i++) {
+        const data = volumes[i];
+        if(highestVolume.volume < data.volume) {
+            highestVolume = data;
+        }
+    }
+
+    const date = new Date(highestVolume.stamp);
+
+    return `The volume of bitcoin was at its peak during ${ordinalNumber(date.getDate())} of ${ordinalMonth(date.getMonth())} ${date.getFullYear()} and it peaked at € ${highestVolume.volume}.`;
+}
+
+const timeMachine = (prices: CoinData[], startTime: number): string => {
+
+}
+
 const InfoPanel = (props: InfoPanelProps) => {
     return (
         <div class="infoPane">
@@ -72,6 +110,11 @@ const InfoPanel = (props: InfoPanelProps) => {
                 <h2>Longest bearish downward trend</h2>
                 <p>The longest bearish downward trend in the measurement period was { longestBear(props.store, props.startTime()) } days.</p>
 
+                <h2>Highest volume</h2>
+                <p>{ highestVolume(props.store, props.startTime()) }</p>
+
+                <h2>Time machine</h2>
+                <p>{ timeMachine(props.store, props.startTime()) }</p>
 
             </Show>
         </div>

@@ -25,7 +25,7 @@ const Form: Component<FormProps> = (props: FormProps) => {
         }
     }
 
-    updateStart(Date.now());
+    updateStart(Date.now() - 3 * day);
 
     const startOnChange = (e) => updateStart(e.target.valueAsNumber);
     const endOnChange = (e) => updateEnd(e.target.valueAsNumber);
