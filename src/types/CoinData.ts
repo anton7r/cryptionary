@@ -4,3 +4,7 @@ export type CoinData = {
 	price: number;
 	totalVolume: number;
 }
+
+export type CoinStore = {
+  priceHistory: CoinData[];
+}
