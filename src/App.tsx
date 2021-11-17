@@ -5,7 +5,7 @@ import { get } from "./api-wrapper";
 import type { CoinData, CoinStore } from "./types/CoinData";
 import { createStore } from "solid-js/store";
 import { createSignal } from "solid-js";
-import { ms2Unix } from "./time/time";
+import { ms2Unix } from "./utils/time/time";
 
 const fetchData = (from: number, to: number) =>
   get(`coins/bitcoin/market_chart/range?vs_currency=eur&from=${from}&to=${to}`);

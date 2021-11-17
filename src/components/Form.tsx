@@ -1,5 +1,5 @@
 import { Component, createSignal } from "solid-js";
-import { stringifyDate, hour, day } from "../time/time";
+import { stringifyDate, hour, day } from "../utils/time/time";
 
 type FormProps = {
   submit: (start: number, end: number) => void;

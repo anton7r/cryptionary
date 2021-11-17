@@ -1,6 +1,7 @@
 import { Show } from "solid-js";
 import type { CoinData, CoinStore } from "../types/CoinData";
-import { day, ordinalMonth, ordinalNumber, stringifyDateTime } from "../time/time";
+import { day, ordinalMonth, ordinalNumber, stringifyDateTime } from "../utils/time/time";
+import { printLargeNumber } from "../utils/largenumbers/largeNumbers";
 
 type InfoPanelProps = {
   store: CoinStore;
@@ -80,7 +81,7 @@ const highestVolume = (prices: CoinData[], startTime: number): string => {
     date.getDate()
   )} of ${ordinalMonth(
     date.getMonth()
-  )} ${date.getFullYear()} and it peaked at € ${highestVolume.volume}.`;
+  )} ${date.getFullYear()} and it peaked at € ${printLargeNumber(highestVolume.volume)}.`;
 };
 
 function get<Type>(arr: Type[], index: number): Type {
@@ -98,10 +99,6 @@ type GetHighest = {
   filteredArr: CoinData[];
   highest: CoinData;
 };
-
-const printLargeNumber = (n: number) => {
-    //TODO
-}
 
 const printMultiplier = (multiplier: number) => {
     if (multiplier > 1) {
@@ -180,7 +177,7 @@ const timeMachine = (prices: CoinData[]): string => {
     );
 
   if (buyNSell != null) {
-    return `Best time to buy would have been at ${stringifyDateTime(buyNSell.buy.stamp)} while trading for € ${buyNSell.buy.price.toFixed(2)} and the best time to sell would have been at ${stringifyDateTime(buyNSell.sell.stamp)} while trading for € ${buyNSell.sell.price.toFixed(2)} and the price of bitcoin ${printMultiplier(buyNSell.profitMultip)}.`;
+    return `Best time to buy would have been at ${stringifyDateTime(buyNSell.buy.stamp)} while trading for € ${buyNSell.buy.price.toFixed(2)} and the best time to sell would have been at ${stringifyDateTime(buyNSell.sell.stamp)} while trading for € ${buyNSell.sell.price.toFixed(2)} and the price of bitcoin ${printMultiplier(buyNSell.profitMultip)} in the timeframe.`;
   }
 
   return "There were no possibilities to make a profit from buying and selling during the measurement period.";
@@ -200,7 +197,7 @@ const InfoPanel = (props: InfoPanelProps) => {
       >
         <h2>Longest bearish downward trend</h2>
         <p>
-          The longest bearish downward trend in the measurement period was{" "}
+          The longest bearish downward trend in the measurement period was 
           {longestBear(props.store.priceHistory, props.startTime())} days.
         </p>
 
