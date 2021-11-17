@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 import type { CoinData, CoinStore } from "../types/CoinData";
-import { day, ordinalMonth, ordinalNumber } from "../time/time";
+import { day, ordinalMonth, ordinalNumber, stringifyDateTime } from "../time/time";
 
 type InfoPanelProps = {
   store: CoinStore;
@@ -99,6 +99,20 @@ type GetHighest = {
   highest: CoinData;
 };
 
+const printLargeNumber = (n: number) => {
+    //TODO
+}
+
+const printMultiplier = (multiplier: number) => {
+    if (multiplier > 1) {
+        const rel = ((multiplier - 1) * 100).toFixed(2);
+        return "rose " + rel + "%";
+    } else {
+        const rel = ((1 - multiplier) * 100).toFixed(2);
+        return "fell " + rel + "%";
+    }
+}
+
 const getHighest = (arr: CoinData[], after: number): GetHighest => {
   arr = arr.filter((coinData) => coinData.stamp > after);
   return {
@@ -133,9 +147,6 @@ const timeMachine = (prices: CoinData[]): string => {
     }
   }
 
-  // console.log("low points: " + lowPoints.length);
-  // console.log("high points: " + highPoints.length);
-
   const lastHigh = highPoints[highPoints.length - 1];
   //a for loop here could be faster, but would make code less readable
   lowPoints = lowPoints.filter((coinData) => lastHigh.stamp > coinData.stamp);
@@ -169,7 +180,7 @@ const timeMachine = (prices: CoinData[]): string => {
     );
 
   if (buyNSell != null) {
-    return `Best time to buy would have been ${buyNSell.buy.stamp} and the best time to sell would have been ${buyNSell.sell.stamp} and the profit multiplier would have been ${buyNSell.profitMultip}`;
+    return `Best time to buy would have been at ${stringifyDateTime(buyNSell.buy.stamp)} while trading for € ${buyNSell.buy.price.toFixed(2)} and the best time to sell would have been at ${stringifyDateTime(buyNSell.sell.stamp)} while trading for € ${buyNSell.sell.price.toFixed(2)} and the price of bitcoin ${printMultiplier(buyNSell.profitMultip)}.`;
   }
 
   return "There were no possibilities to make a profit from buying and selling during the measurement period.";
@@ -183,7 +194,7 @@ const InfoPanel = (props: InfoPanelProps) => {
         fallback={
           <>
             <h2>Here you are going to see useful info</h2>
-            <p>... as long as you fill the adjacent form</p>
+            <p>... as long as you fill the adjacent form.</p>
           </>
         }
       >

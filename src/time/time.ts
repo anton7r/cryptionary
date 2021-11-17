@@ -9,11 +9,22 @@ const dateStamp = (n: number): string => (n < 10 ? "0" : "") + n;
 
 const stringifyDate = (n: number) => {
     const date = new Date(n),
-        day = dateStamp(date.getDate()), 
-        year = date.getFullYear(),
-        month = dateStamp(date.getMonth() + 1);
+        day = dateStamp(date.getUTCDate()), 
+        year = date.getUTCFullYear(),
+        month = dateStamp(date.getUTCMonth() + 1);
 
     return year + "-" + month + "-" + day;
+}
+
+const stringifyDateTime = (n: number) => {
+    const date = new Date(n),
+        day = dateStamp(date.getUTCDate()), 
+        year = date.getUTCFullYear(),
+        month = dateStamp(date.getUTCMonth() + 1),
+        hour = dateStamp(date.getUTCHours()),
+        minute = dateStamp(date.getUTCMinutes());
+
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute;
 }
 
 //0 indexed
@@ -75,4 +86,4 @@ const day = 24 * hour;
 
 const week = 7 * day;
 
-export { ms2Unix, unix2ms, stringifyDate, ordinalMonth, ordinalNumber, hour, day, week }
+export { ms2Unix, unix2ms, stringifyDate, stringifyDateTime, ordinalMonth, ordinalNumber, hour, day, week }
