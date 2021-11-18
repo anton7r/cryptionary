@@ -21,8 +21,8 @@ const InfoPanel = (props: InfoPanelProps) => {
         when={!isEmpty(props.store)}
         fallback={
           <>
-            <h2>Here you are going to see useful info</h2>
-            <p>... as long as you fill the adjacent form.</p>
+            <h2>Fill the adjacent form, please</h2>
+            <p>So that you could see some information here.</p>
           </>
         }
       >

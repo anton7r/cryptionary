@@ -1,9 +1,14 @@
 $primary: #25f158;
-$secondary-lighter: #37373d;
+$secondaryLighter: #37373d;
 $secondary: #2b2b2e;
-$secondary-darker: #201f1f;
+$secondaryDarker: #201f1f;
 $tertiary: #2589fa;
 $gray: #646464;
+$lightGray: #9b9b9b;
+
+body {
+    background-color: $secondaryDarker;
+}
 
 * {
     padding: 0;
@@ -32,7 +37,40 @@ $gray: #646464;
     }
 }
 
+.btn {
+    padding: 12px 40px;
+    border: none;
+    box-shadow: $tertiary 0px 0px 0px 0px;
+    border-radius: 10px;
+    transition: all 150ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.gradientWave {
+    background: repeating-linear-gradient(-30deg, #25f158 7.5%,#152cff 12.5%, #2589fa 15.15%, #9a25fa 33.3%, #00a2ff 38%,  #25f158 50%);
+    background-size: 300vw 300vw;
+    animation: waveSlide 12s linear infinite backwards;
+}
+
+@keyframes waveSlide {
+    0% {
+        background-position-x: 300vw;
+    }
+
+    100% {
+        background-position-x: 0vw;
+    }
+}
+
+.grayText {
+    color: $lightGray;
+}
+
+.greenText {
+    color: $primary;
+}
+
 .form {
+    margin-top: 32px;
 
     label {
         margin-bottom: 0px;
@@ -42,7 +80,7 @@ $gray: #646464;
     input {
 
         width:calc(100% - (8px * 2));
-        background-color: $secondary-darker;
+        background-color: $secondaryDarker;
         color: white;
 
         margin-top: 4px;
@@ -65,19 +103,14 @@ $gray: #646464;
         margin-top: 24px;
 
         background-color: $primary;
+        color: $secondary;
         width: 100%;
-
-        padding: 12px 40px;
-        border: none;
-        box-shadow: $tertiary 0px 0px 0px 0px;
-        border-radius: 10px;
-        transition: all 150ms cubic-bezier(0.075, 0.82, 0.165, 1);
 
         &:hover {
             background-color: lighten($primary, 10%);
             color: lighten($secondary, 10%);
         }
-
+    
         &:focus {
             box-shadow: $tertiary 0px 0px 0px 2px;
         }
@@ -88,7 +121,7 @@ $gray: #646464;
 
     padding: 0 16px;
 
-    background-color: $secondary-lighter;
+    background-color: $secondaryLighter;
     color: white;
 
     * {
@@ -99,4 +132,79 @@ $gray: #646464;
         padding-top: 20px;
         padding-bottom: 5px;
     }
+}
+
+.landingPage {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+
+    text-align: center;
+    background-color: $secondaryDarker;
+    
+
+    h1 {
+        @extend .gradientWave;
+
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        color: $primary;
+        font-size: 4rem;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: white;
+    }
+
+    .actions {
+        padding-top: 64px;
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 12px;
+
+    }
+
+    .btn {
+        text-decoration: none;
+        display: inline-block;
+
+        &.primary {
+            @extend .gradientWave;
+    
+            color: $secondary;
+            
+            &:hover {
+                background-color: lighten($primary, 10%);
+                color: lighten($secondary, 10%);
+            }
+        
+            &:focus {
+                box-shadow: $tertiary 0px 0px 0px 2px;
+            }
+        }
+
+        &.secondary {
+            color: white;
+            //border: 2px solid;
+            outline:1px solid white;
+            box-sizing: content-box;
+            
+            &:hover {
+                background-color: white;
+                color: $secondary;
+            }
+        
+            &:focus {
+                box-shadow: $tertiary 0px 0px 0px 2px;
+            }
+        }
+    }
+    
 }

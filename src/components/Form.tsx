@@ -51,6 +51,7 @@ const Form: Component<FormProps> = (props: FormProps) => {
       />
 
       <button 
+        class="btn"
         onClick={() => props.submit(start(), end())}
       >
         Fetch data
