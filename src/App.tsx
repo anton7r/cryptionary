@@ -13,7 +13,7 @@ import LandingPage from "./components/LandingPage";
 const fetchData = (from: number, to: number) =>
   get(`coins/bitcoin/market_chart/range?vs_currency=eur&from=${from}&to=${to}`);
 
-const RoutedApp: Component = () => {
+const RoutedApp = () => {
   return (
     <>
     <Router>

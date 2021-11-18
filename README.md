@@ -1,2 +1,2 @@
 # Cryptionary
-You can view the page from here
+You can view the app from here
