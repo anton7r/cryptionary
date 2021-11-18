@@ -1,5 +1,5 @@
 import { Component, createSignal } from "solid-js";
-import { stringifyDate, hour, day } from "../utils/time/time";
+import { stringifyDate, day } from "../utils/time/time";
 
 type FormProps = {
   submit: (start: number, end: number) => void;
@@ -30,10 +30,6 @@ const Form: Component<FormProps> = (props: FormProps) => {
   const startOnChange = (e) => updateStart(e.target.valueAsNumber);
   const endOnChange = (e) => updateEnd(e.target.valueAsNumber);
 
-  const buttonClick = () => {
-    props.submit(start(), end() + hour);
-  };
-
   return (
     <div class="form">
       <label>Start date</label>
@@ -54,7 +50,11 @@ const Form: Component<FormProps> = (props: FormProps) => {
         onChange={endOnChange}
       />
 
-      <button onClick={buttonClick}>Fetch data</button>
+      <button 
+        onClick={() => props.submit(start(), end())}
+      >
+        Fetch data
+      </button>
     </div>
   );
 };

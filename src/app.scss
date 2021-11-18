@@ -1,5 +1,7 @@
 $primary: #25f158;
+$secondary-lighter: #37373d;
 $secondary: #2b2b2e;
+$secondary-darker: #201f1f;
 $tertiary: #2589fa;
 $gray: #646464;
 
@@ -10,42 +12,91 @@ $gray: #646464;
     color: $secondary;
 }
 
-button {
-    background-color: $primary;
-    padding: 10px 40px;
-    border: none;
-    box-shadow: $tertiary 0px 0px 0px 0px;
-    border-radius: 10px;
-    transition: all 150ms cubic-bezier(0.075, 0.82, 0.165, 1);
+.app {
+    display: grid;
+    grid-template-columns: 256px 1fr;
+    grid-template-rows: 100vh;
+    grid-template-areas: "sidepanel infopanel";
 }
 
-button:hover {
-    background-color: lighten($primary, 10%);
-    color: lighten($secondary, 10%);
+.sidePanel {
+    padding: 0 16px;
+    padding-top: 16px;
+    background-color: $secondary;
+    color: white;
+
+    h1,
+    p,
+    label {
+        color: white;
+    }
 }
 
-button:focus {
-    box-shadow: $tertiary 0px 0px 0px 2px;
+.form {
+
+    label {
+        margin-bottom: 0px;
+        font-size: .90rem;
+    }
+
+    input {
+
+        width:calc(100% - (8px * 2));
+        background-color: $secondary-darker;
+        color: white;
+
+        margin-top: 4px;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 8px;
+        transition: all 150ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:focus {
+            box-shadow: $tertiary 0px 0px 0px 2px;
+        }
+    }
+
+    * {
+        display: block;
+        margin: 12px 0px;
+    }
+
+    button {
+        margin-top: 24px;
+
+        background-color: $primary;
+        width: 100%;
+
+        padding: 12px 40px;
+        border: none;
+        box-shadow: $tertiary 0px 0px 0px 0px;
+        border-radius: 10px;
+        transition: all 150ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:hover {
+            background-color: lighten($primary, 10%);
+            color: lighten($secondary, 10%);
+        }
+
+        &:focus {
+            box-shadow: $tertiary 0px 0px 0px 2px;
+        }
+    }
 }
 
-.form * {
-    display: block;
-    margin: 12px;
-}
+.infoPanel {
 
-.form label {
-    margin-bottom: 0px;
-}
+    padding: 0 16px;
 
-.form input {
-    margin-top: 4px;
-    border: none;
-    box-shadow: $gray 0px 0px 0px 1px;
-    border-radius: 5px;
-    padding: 8px;
-    transition: all 150ms cubic-bezier(0.075, 0.82, 0.165, 1);
-}
+    background-color: $secondary-lighter;
+    color: white;
 
-.form input:focus {
-    box-shadow: $tertiary 0px 0px 0px 2px;
+    * {
+        color: inherit;
+    }
+
+    h2 {
+        padding-top: 20px;
+        padding-bottom: 5px;
+    }
 }

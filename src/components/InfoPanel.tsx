@@ -16,7 +16,7 @@ const isEmpty = (store: CoinStore) =>
 
 const InfoPanel = (props: InfoPanelProps) => {
   return (
-    <div class="infoPane">
+    <div class="infoPanel">
       <Show
         when={!isEmpty(props.store)}
         fallback={

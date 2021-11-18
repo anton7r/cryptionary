@@ -13,22 +13,17 @@ type BuyNSell = {
     profitMultip: number;
 };
 
-type GetHighest = {
-    filteredArr: CoinData[];
-    highest: CoinData;
-};
-
 const printMultiplier = (multiplier: number) => {
     if (multiplier > 1) {
         const rel = ((multiplier - 1) * 100).toFixed(2);
-        return "rose " + rel + "%";
+        return "rose " + rel + " %";
     } else {
         const rel = ((1 - multiplier) * 100).toFixed(2);
-        return "fell " + rel + "%";
+        return "fell " + rel + " %";
     }
 }
 
-const getHighest = (arr: CoinData[], after: number): GetHighest => {
+const getHighest = (arr: CoinData[], after: number) => {
     arr = arr.filter((coinData) => coinData.stamp > after);
     return {
         filteredArr: arr,
@@ -39,7 +34,7 @@ const getHighest = (arr: CoinData[], after: number): GetHighest => {
 };
 
 const timeMachine = (prices: CoinData[]): string => {
-    // in order for a point to be called a low point the current value needs to be
+    // in order for a data point to be called a low point the current value needs to be
     //lower than the previous value and lower than the next one and the opposite is true for highpoints
     let lowPoints: CoinData[] = [];
     let highPoints: CoinData[] = [];
@@ -63,13 +58,10 @@ const timeMachine = (prices: CoinData[]): string => {
     }
 
     const lastHigh = highPoints[highPoints.length - 1];
-    //a for loop here could be faster, but would make code less readable
+    //a for loop here could be faster as it can be ran inversed and can quit early, but would make code less readable
     lowPoints = lowPoints.filter((coinData) => lastHigh.stamp > coinData.stamp);
     const firstLow = highPoints[0];
     highPoints = highPoints.filter((coinData) => firstLow.stamp < coinData.stamp);
-
-    console.log("low points: " + lowPoints.length);
-    console.log("high points: " + highPoints.length);
 
     let { filteredArr: filteredHigh, highest } = getHighest(
         highPoints,

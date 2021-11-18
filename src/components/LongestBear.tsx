@@ -10,7 +10,6 @@ const longestBear = (prices: CoinData[], startTime: number): number => {
     for (let i = 0; i < prices.length; i++) {
         const delta = prices[i].stamp - expectedTime;
         if (delta >= 0) {
-            //console.log(delta);
             filteredPrices.push(
                 prices[Math.abs(closest) > Math.abs(delta) ? i : i - 1]
             );
@@ -44,8 +43,7 @@ const LongestBear = (props: InfoPanelProps) => {
         <>
             <h2>Longest bearish downward trend</h2>
             <p>
-                The longest bearish downward trend in the measurement period was
-                {longestBear(props.store.priceHistory, props.startTime())} days.
+                The longest bearish downward trend in the measurement period was {longestBear(props.store.priceHistory, props.startTime())} days.
             </p>
         </>
     );
