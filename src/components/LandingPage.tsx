@@ -9,7 +9,7 @@ const LandingPage: Component = () => {
 
             <div class="actions">
                 <Link class="btn primary" href="/app">Launch app</Link>
-                <Link class="btn secondary" href="/app">View source code</Link>
+                <Link class="btn secondary" href="github.com/anton7r/cryptionary">View source code</Link>
             </div>
         </div>
     )

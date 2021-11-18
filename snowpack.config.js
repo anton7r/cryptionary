@@ -40,13 +40,6 @@
       treeshake: true,
       splitting: true,
     },
-    routes: [
-      {
-        match: 'routes',
-        src: '.*',
-        dest: '/index.html',
-      },
-    ],
   };
   
   module.exports = config;
