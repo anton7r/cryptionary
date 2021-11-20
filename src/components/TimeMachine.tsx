@@ -1,6 +1,6 @@
+import { useCoinData } from "../store/coinDataStore";
 import type { CoinData } from "../types/CoinData";
 import { stringifyDateTime } from "../utils/time/time";
-import type { InfoPanelProps } from "./InfoPanel";
 
 function get<Type>(arr: Type[], index: number): Type {
     const minMax = Math.max(Math.min(index, arr.length), 0);
@@ -93,11 +93,13 @@ const timeMachine = (prices: CoinData[]): string => {
     return "There were no possibilities to make a profit from buying and selling during the measurement period.";
 };
 
-const TimeMachine = (props: InfoPanelProps) => {
+const TimeMachine = () => {
+    const [ coinData ] = useCoinData();
+    
     return (
         <>
             <h2>Time machine</h2>
-            <p>{timeMachine(props.store.priceHistory)}</p>
+            <p>{timeMachine(coinData.priceHistory)}</p>
         </>
     );
 };

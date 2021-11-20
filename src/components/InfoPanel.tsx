@@ -1,24 +1,20 @@
 import { Show } from "solid-js";
-import type { CoinStore } from "../types/CoinData";
 import { TimeMachine } from "./TimeMachine";
 import { LongestBear } from "./LongestBear";
 import { HighestVolume } from "./HighestVolume";
+import { useCoinData } from "../store/coinDataStore";
 
 type InfoPanelProps = {
-  store: CoinStore;
   startTime: () => number;
 };
 
-const isEmpty = (store: CoinStore) =>
-  store == null ||
-  store.priceHistory == null ||
-  store.priceHistory.length === 0;
-
 const InfoPanel = (props: InfoPanelProps) => {
+  const [, { isEmpty } ] = useCoinData();
+  
   return (
     <div class="infoPanel">
       <Show
-        when={!isEmpty(props.store)}
+        when={!isEmpty()}
         fallback={
           <>
             <h2>Fill the adjacent form, please</h2>
@@ -26,9 +22,9 @@ const InfoPanel = (props: InfoPanelProps) => {
           </>
         }
       >
-        <LongestBear store={props.store} startTime={props.startTime} />
-        <HighestVolume store={props.store} startTime={props.startTime} />
-        <TimeMachine store={props.store} startTime={props.startTime} />
+        <LongestBear startTime={props.startTime} />
+        <HighestVolume startTime={props.startTime} />
+        <TimeMachine />
       </Show>
     </div>
   );

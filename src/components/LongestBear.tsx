@@ -2,6 +2,7 @@ import { day } from "../utils/time/time";
 import type { CoinData } from "../types/CoinData";
 import type { InfoPanelProps } from "./InfoPanel";
 import { untrack } from "solid-js";
+import { useCoinData } from "../store/coinDataStore";
 
 const longestBear = (prices: CoinData[], startTime: number): number => {
     const filteredPrices: CoinData[] = [];
@@ -40,11 +41,13 @@ const longestBear = (prices: CoinData[], startTime: number): number => {
 };
 
 const LongestBear = (props: InfoPanelProps) => {
+    const [ coinData ] = useCoinData();
+
     return (
         <>
             <h2>Longest bearish downward trend</h2>
             <p>
-                The longest bearish downward trend in the measurement period was {longestBear(props.store.priceHistory, untrack(props.startTime))} days.
+                The longest bearish downward trend in the measurement period was {longestBear(coinData.priceHistory, untrack(props.startTime))} days.
             </p>
         </>
     );

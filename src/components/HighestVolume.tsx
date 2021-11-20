@@ -1,4 +1,5 @@
 import { untrack } from "solid-js";
+import { useCoinData } from "../store/coinDataStore";
 import type { CoinData } from "../types/CoinData";
 import { printLargeNumber } from "../utils/largenumbers/largeNumbers";
 import { day, ordinalNumber, ordinalMonth } from "../utils/time/time";
@@ -40,10 +41,12 @@ const highestVolume = (prices: CoinData[], startTime: number): string => {
 
 
 const HighestVolume = (props: InfoPanelProps) => {
+    const [ coinData ] = useCoinData();
+    
     return (
         <>
             <h2>Highest volume</h2>
-            <p>{highestVolume(props.store.priceHistory, untrack(props.startTime))}</p>
+            <p>{highestVolume(coinData.priceHistory, untrack(props.startTime))}</p>
         </>
     );
 };

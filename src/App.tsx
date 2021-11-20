@@ -2,13 +2,12 @@ import "./app.scss";
 import { Form } from "./components/Form";
 import { InfoPanel } from "./components/InfoPanel";
 import { get } from "./api-wrapper";
-import type { CoinData, CoinStore } from "./types/CoinData";
-import { createStore } from "solid-js/store";
 import { Component, createSignal } from "solid-js";
 import { hour, ms2Unix } from "./utils/time/time";
 import SidePanel from "./components/SidePanel";
 import { Router, Routes, Route } from "solid-app-router";
 import LandingPage from "./components/LandingPage";
+import { useCoinData } from "./store/coinDataStore";
 
 const fetchData = (from: number, to: number) =>
   get(`coins/bitcoin/market_chart/range?vs_currency=eur&from=${from}&to=${to}`);
@@ -16,34 +15,19 @@ const fetchData = (from: number, to: number) =>
 const RoutedApp = () => {
   return (
     <>
-    <Router>
-      <Routes>
-        <Route path="/app" element={<App />} />
-        <Route path="/" element={<LandingPage />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/app" element={<App />} />
+          <Route path="/" element={<LandingPage />} />
+        </Routes>
+      </Router>
     </>
   )
 }
 
 const App: Component = () => {
   const [start, setStart] = createSignal(0);
-  const [store, setStore] = createStore<CoinStore>({ priceHistory: [] });
-
-  const updateStore = (fetchedData) => {
-    const coinDatas: CoinData[] = [];
-
-    for (let i = 0; i < fetchedData.market_caps.length; i++) {
-      coinDatas.push({
-        stamp: fetchedData.market_caps[i][0],
-        marketCap: fetchedData.market_caps[i][1],
-        price: fetchedData.prices[i][1],
-        totalVolume: fetchedData.total_volumes[i][1],
-      });
-    }
-
-    setStore("priceHistory", coinDatas);
-  };
+  const [, { updateStore }] = useCoinData();
 
   const formSubmit = async (from: number, to: number) => {
     setStart(from);
@@ -58,7 +42,7 @@ const App: Component = () => {
         <p><span class="grayText">Powered by</span> <span class="greenText">CoinGecko</span></p>
         <Form submit={formSubmit} />
       </SidePanel>
-      <InfoPanel store={store} startTime={start} />
+      <InfoPanel startTime={start} />
     </div>
   );
 };
